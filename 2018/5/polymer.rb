@@ -1,57 +1,35 @@
 class Polymer
-  class Node
-    attr_reader :char
-    attr_accessor :next_node
-
-    def initialize(char, next_node)
-      @char = char
-      @next_node = next_node
-    end
-
-    def destroys?(other_node)
-      char != other_node.char && char.upcase == other_node.char.upcase
-    end
-  end
-
   def initialize(str)
-    @head = str.reverse.each_char.inject(nil) do |next_node, char|
-      Node.new(char, next_node)
-    end
+    @str = str.dup
   end
 
-  def fully_react!
-    loop while react!
+  def remove!(char)
+    @str.tr!([char, char.swapcase].join, "")
     self
   end
 
-  def react!
-    changed = false
-
-    n1, n2, n3 = nil, @head, @head.next_node
-    until n3.nil?
-      if n2.destroys?(n3)
-        if n1.nil?
-          @head = n3.next_node
-        else
-          n1.next_node = n3.next_node
-        end
-
-        changed = true
+  def fully_react!
+    i = 0
+    while i < @str.length - 1
+      i = 0 if i < 0
+      if destroys?(@str[i], @str[i + 1])
+        @str.slice!(i..i+1)
+        i -= 1
+      else
+        i += 1
       end
-
-      n1, n2, n3 = n2, n3, n3.next_node
     end
 
-    changed
+    self
   end
 
   def to_s
-    str = ""
-    node = @head
-    until node.nil?
-      str << node.char
-      node = node.next_node
-    end
-    str
+    @str
+  end
+
+  private
+
+  def destroys?(a, b)
+    a != b && a.upcase == b.upcase
   end
 end
