@@ -9,4 +9,4 @@ ARGF.each_line do |line|
     abort "invalid line: #{line}"
   end
 end
-puts set.to_s
+puts set.total_time
