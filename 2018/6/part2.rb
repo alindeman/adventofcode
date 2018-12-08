@@ -9,6 +9,4 @@ points = ARGF.each_line.map { |line|
   end
 }
 grid = Grid.new(points)
-puts grid.areas_by_point_excluding_infinite.
-  max_by { |p, distance| distance }.
-  last
+puts grid.area_containing_safe_distances
