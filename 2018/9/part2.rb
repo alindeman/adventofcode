@@ -7,7 +7,7 @@ if ARGV.length < 2
 end
 
 players = ARGV[0].to_i
-last_marble_value = ARGV[1].to_i
+last_marble_value = ARGV[1].to_i * 100
 
 game = Game.new
 1.upto(last_marble_value).zip(1.upto(players).cycle) do |marble_value, player_id|
